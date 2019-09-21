@@ -27,6 +27,9 @@
       <f:entry title="Comment (regex) for triggering a build" help="/plugin/gitlab-plugin/help/help-noteRegex.html">
         <f:textbox field="noteRegex" default="Jenkins please retry a build"/>
       </f:entry>
+      <f:entry title="User (regex) for triggering a build" help="/plugin/gitlab-plugin/help/help-userRegex.html">
+        <f:textbox field="userRegex" default=""/>
+      </f:entry>
     </table>
   </f:entry>
   <f:advanced>

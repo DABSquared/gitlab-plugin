@@ -1,7 +1,10 @@
 package com.dabsquared.gitlabjenkins.trigger.handler.note;
 
 import com.dabsquared.gitlabjenkins.cause.CauseData;
+import com.dabsquared.gitlabjenkins.connection.GitLabConnectionProperty;
+import com.dabsquared.gitlabjenkins.gitlab.api.GitLabClient;
 import com.dabsquared.gitlabjenkins.gitlab.hook.model.NoteHook;
+import com.dabsquared.gitlabjenkins.publisher.GitLabMessagePublisher;
 import com.dabsquared.gitlabjenkins.trigger.exception.NoRevisionToBuildException;
 import com.dabsquared.gitlabjenkins.trigger.filter.BranchFilter;
 import com.dabsquared.gitlabjenkins.trigger.filter.MergeRequestLabelFilter;
@@ -26,13 +29,16 @@ class NoteHookTriggerHandlerImpl extends AbstractWebHookTriggerHandler<NoteHook>
 
     private final String noteRegex;
 
-    NoteHookTriggerHandlerImpl(String noteRegex) {
+    private final String userRegex;
+
+    NoteHookTriggerHandlerImpl(String noteRegex, String userRegex) {
         this.noteRegex = noteRegex;
+        this.userRegex = userRegex;
     }
 
     @Override
     public void handle(Job<?, ?> job, NoteHook hook, boolean ciSkip, BranchFilter branchFilter, MergeRequestLabelFilter mergeRequestLabelFilter) {
-        if (isValidTriggerPhrase(hook.getObjectAttributes().getNote())) {
+        if (isValidTriggerPhrase(hook.getObjectAttributes().getNote()) && isAllowedUser(hook.getUser().getUsername())) {
             super.handle(job, hook, ciSkip, branchFilter, mergeRequestLabelFilter);
         }
     }
@@ -67,8 +73,8 @@ class NoteHookTriggerHandlerImpl extends AbstractWebHookTriggerHandler<NoteHook>
                 .withTargetProjectId(hook.getMergeRequest().getTargetProjectId())
                 .withBranch(hook.getMergeRequest().getSourceBranch())
                 .withSourceBranch(hook.getMergeRequest().getSourceBranch())
-                .withUserName(hook.getMergeRequest().getLastCommit().getAuthor().getName())
-                .withUserEmail(hook.getMergeRequest().getLastCommit().getAuthor().getEmail())
+                .withUserName(hook.getUser().getUsername())
+                .withUserEmail(hook.getUser().getEmail())
                 .withSourceRepoHomepage(hook.getMergeRequest().getSource().getHomepage())
                 .withSourceRepoName(hook.getMergeRequest().getSource().getName())
                 .withSourceNamespace(hook.getMergeRequest().getSource().getNamespace())
@@ -85,7 +91,7 @@ class NoteHookTriggerHandlerImpl extends AbstractWebHookTriggerHandler<NoteHook>
                 .withTargetNamespace(hook.getMergeRequest().getTarget().getNamespace())
                 .withTargetRepoSshUrl(hook.getMergeRequest().getTarget().getSshUrl())
                 .withTargetRepoHttpUrl(hook.getMergeRequest().getTarget().getHttpUrl())
-                .withTriggeredByUser(hook.getMergeRequest().getLastCommit().getAuthor().getName())
+                .withTriggeredByUser(hook.getUser().getName())
                 .withLastCommit(hook.getMergeRequest().getLastCommit().getId())
                 .withTargetProjectUrl(hook.getMergeRequest().getTarget().getWebUrl())
                 .withTriggerPhrase(hook.getObjectAttributes().getNote())
@@ -123,5 +129,14 @@ class NoteHookTriggerHandlerImpl extends AbstractWebHookTriggerHandler<NoteHook>
         }
         final Pattern pattern = Pattern.compile(this.noteRegex);
         return pattern.matcher(note).matches();
+    }
+
+    private boolean isAllowedUser(String user) {
+        if (StringUtils.isEmpty(this.userRegex)) {
+            return true;
+        }
+
+        final Pattern pattern = Pattern.compile(this.userRegex);
+        return pattern.matcher(user).matches();
     }
 }

@@ -86,6 +86,7 @@ public class GitLabPushTrigger extends Trigger<Job<?, ?>> implements MergeReques
     private TriggerOpenMergeRequest triggerOpenMergeRequestOnPush;
     private boolean triggerOnNoteRequest = true;
     private String noteRegex = "";
+    private String userRegex = "";
     private boolean ciSkip = true;
     private boolean skipWorkInProgressMergeRequest;
     private boolean setBuildDescription = true;
@@ -118,7 +119,7 @@ public class GitLabPushTrigger extends Trigger<Job<?, ?>> implements MergeReques
     @Deprecated
     @GeneratePojoBuilder(intoPackage = "*.builder.generated", withFactoryMethod = "*")
     public GitLabPushTrigger(boolean triggerOnPush, boolean triggerOnMergeRequest, boolean triggerOnAcceptedMergeRequest, boolean triggerOnClosedMergeRequest,
-    						 TriggerOpenMergeRequest triggerOpenMergeRequestOnPush, boolean triggerOnNoteRequest, String noteRegex,
+    						 TriggerOpenMergeRequest triggerOpenMergeRequestOnPush, boolean triggerOnNoteRequest, String noteRegex, String userRegex,
     						 boolean skipWorkInProgressMergeRequest, boolean ciSkip,
                              boolean setBuildDescription, boolean addNoteOnMergeRequest, boolean addCiMessage, boolean addVoteOnMergeRequest,
                              boolean acceptMergeRequestOnSuccess, BranchFilterType branchFilterType,
@@ -131,6 +132,7 @@ public class GitLabPushTrigger extends Trigger<Job<?, ?>> implements MergeReques
         this.triggerOnClosedMergeRequest = triggerOnClosedMergeRequest;
         this.triggerOnNoteRequest = triggerOnNoteRequest;
         this.noteRegex = noteRegex;
+        this.userRegex = userRegex;
         this.triggerOpenMergeRequestOnPush = triggerOpenMergeRequestOnPush;
         this.triggerOnPipelineEvent = triggerOnPipelineEvent;
         this.ciSkip = ciSkip;
@@ -243,6 +245,10 @@ public class GitLabPushTrigger extends Trigger<Job<?, ?>> implements MergeReques
         return this.noteRegex == null ? "" : this.noteRegex;
     }
 
+    public String getUserRegex() {
+        return this.userRegex == null ? "" : this.userRegex;
+    }
+
     @Override
     public TriggerOpenMergeRequest getTriggerOpenMergeRequestOnPush() {
         return triggerOpenMergeRequestOnPush;
@@ -336,6 +342,11 @@ public class GitLabPushTrigger extends Trigger<Job<?, ?>> implements MergeReques
     @DataBoundSetter
     public void setNoteRegex(String noteRegex) {
         this.noteRegex = noteRegex;
+    }
+
+    @DataBoundSetter
+    public void setUserRegex(String userRegex) {
+        this.userRegex = userRegex;
     }
 
     @DataBoundSetter
@@ -483,7 +494,7 @@ public class GitLabPushTrigger extends Trigger<Job<?, ?>> implements MergeReques
 
     private void initializeTriggerHandler() {
 		mergeRequestHookTriggerHandler = newMergeRequestHookTriggerHandler(this);
-        noteHookTriggerHandler = newNoteHookTriggerHandler(triggerOnNoteRequest, noteRegex);
+        noteHookTriggerHandler = newNoteHookTriggerHandler(triggerOnNoteRequest, noteRegex, userRegex);
         pushHookTriggerHandler = newPushHookTriggerHandler(triggerOnPush, triggerOpenMergeRequestOnPush, skipWorkInProgressMergeRequest);
         pipelineTriggerHandler = newPipelineHookTriggerHandler(triggerOnPipelineEvent);
     }
