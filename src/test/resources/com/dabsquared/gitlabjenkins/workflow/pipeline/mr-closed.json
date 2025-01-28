@@ -1,0 +1,56 @@
+[
+  {
+    "id": 10,
+    "iid": 10,
+    "project_id": 10,
+    "title": "MR Feature 2",
+    "description": "This is an MR for feature 2",
+    "state": "merged",
+    "created_at": "2019-06-17T22:54:32.858Z",
+    "updated_at": "2019-06-20T15:27:10.756Z",
+    "merged_by": {
+      "id": 15,
+      "name": "John Doe",
+      "username": "jdoe",
+      "state": "active"
+    },
+    "merged_at": "2019-06-20T15:27:10.828Z",
+    "closed_by": null,
+    "closed_at": null,
+    "target_branch": "master",
+    "source_branch": "feature2",
+    "user_notes_count": 2,
+    "upvotes": 0,
+    "downvotes": 0,
+    "assignee": null,
+    "author": {
+      "id": 11,
+      "name": "Jane Doe",
+      "username": "jdoe",
+      "state": "active"
+    },
+    "assignees": [],
+    "source_project_id": 10,
+    "target_project_id": 10,
+    "labels": [],
+    "work_in_progress": false,
+    "milestone": null,
+    "merge_when_pipeline_succeeds": false,
+    "merge_status": "can_be_merged",
+    "sha": "cf00b438ffa638410dc64b85dac72d49b72e6474",
+    "merge_commit_sha": "51b9249082908db50efde6cd0219e264bff3ac79",
+    "discussion_locked": null,
+    "should_remove_source_branch": null,
+    "force_remove_source_branch": true,
+    "reference": "!46",
+    "web_url": "https://gitlab/project/merge_requests/2",
+    "time_stats": {
+      "time_estimate": 0,
+      "total_time_spent": 0,
+      "human_time_estimate": null,
+      "human_total_time_spent": null
+    },
+    "squash": false,
+    "approvals_before_merge": null
+  }
+]
