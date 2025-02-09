@@ -1,0 +1,63 @@
+[
+  {
+    "id": 11,
+    "iid": 35,
+    "project_id": 10,
+    "title": "MR Feature 1",
+    "description": "Mr for Feature 1",
+    "state": "opened",
+    "created_at": "2019-06-11T18:20:14.331Z",
+    "updated_at": "2019-06-11T18:22:03.181Z",
+    "merged_by": null,
+    "merged_at": null,
+    "closed_by": null,
+    "closed_at": null,
+    "target_branch": "master",
+    "source_branch": "feature1",
+    "user_notes_count": 2,
+    "upvotes": 0,
+    "downvotes": 0,
+    "assignee": {
+      "id": 11,
+      "name": "Jane Doe",
+      "username": "jdoe",
+      "state": "active"
+    },
+    "author": {
+      "id": 15,
+      "name": "John Doe",
+      "username": "jdoe",
+      "state": "active"
+    },
+    "assignees": [
+      {
+        "id": 11,
+        "name": "Jane Doe",
+        "username": "jdoe",
+        "state": "active"
+      }
+    ],
+    "source_project_id": 65,
+    "target_project_id": 65,
+    "labels": [],
+    "work_in_progress": false,
+    "milestone": null,
+    "merge_when_pipeline_succeeds": false,
+    "merge_status": "can_be_merged",
+    "sha": "6d3e8611f0a452d7c9d343c6fd734fd47fdfabca",
+    "merge_commit_sha": null,
+    "discussion_locked": null,
+    "should_remove_source_branch": null,
+    "force_remove_source_branch": true,
+    "reference": "!35",
+    "web_url": "https://gitlabee/project/merge_requests/1",
+    "time_stats": {
+      "time_estimate": 0,
+      "total_time_spent": 0,
+      "human_time_estimate": null,
+      "human_total_time_spent": null
+    },
+    "squash": false,
+    "approvals_before_merge": null
+  }
+]
